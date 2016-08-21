@@ -1,0 +1,58 @@
+/* 
+floyd 
+Memory 196K 
+Time   47MS 
+*/  
+#include <iostream>  
+#include <string.h>  
+using namespace std;  
+#define MAXC 100  
+#define MAXV 50  
+  
+double map[MAXV][MAXV];  
+int n,m;  
+  
+void Input(){  
+    char s[MAXV][MAXC],a[MAXC],b[MAXC];  
+    int i,k,j;  
+    double c;  
+    for(i=0;i<=n;i++)  
+        for(j=0;j<=n;j++)  
+            if(i==j)  
+                map[i][j]=1;  
+            else  
+                map[i][i]=0;  
+    for(i=1;i<=n;i++) scanf("%s",s[i]);  
+    scanf("%d\n",&m);  
+    for(i=1;i<=m;i++){  
+        scanf("%s %lf %s",a,&c,b);  
+        for(j=1;j<=n;j++)  
+            if(!strcmp(s[j],a)) break;  
+        for(k=1;k<=n;k++)  
+            if(!strcmp(s[k],b)) break;  
+        map[j][k]=c;  
+    }  
+}  
+  
+void floyd(){  
+    int i,j,k;  
+    for(k=1;k<=n;k++)  
+        for(i=1;i<=n;i++)  
+            for(j=1;j<=n;j++)  
+                if(map[i][k]*map[k][j]>map[i][j])  
+                    map[i][j]=map[i][k]*map[k][j];  
+}  
+  
+int main(){  
+    int cas=1,i;  
+    while(scanf("%d\n",&n) && n){  
+        Input();  
+        floyd();  
+        printf("Case %d: ",cas++);  
+        for(i=1;i<=n;i++)  
+            if(map[i][i]>1) break;  
+        if(i>n) printf("No\n");  
+        else printf("Yes\n");  
+    }  
+    return 0;  
+}  
